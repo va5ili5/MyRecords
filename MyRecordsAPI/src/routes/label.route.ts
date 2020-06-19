@@ -3,5 +3,5 @@ import { getLabels } from '../controllers/label.controller';
 
 const router = Router();
 
-router.get('/labels', getLabels);
+router.get('/api/labels', getLabels);
 export default router;

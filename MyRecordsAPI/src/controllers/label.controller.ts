@@ -7,5 +7,5 @@ export const getLabels = async (
   response: Response
 ): Promise<Response> => {
   const labels = await getRepository(Label).find({ relations: ['releases'] });
-  return response.json(labels);
+  return response.status(200).json(labels);
 };
