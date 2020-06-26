@@ -1,6 +1,8 @@
 DROP TABLE IF EXISTS appuser;
 CREATE TABLE appuser (
   id serial NOT NULL
+, email character(255) NOT NULL
+, password character(255) NOT NULL
 , username character(255) NOT NULL
 , firstname character(255) NOT NULL
 , lastname character(255) NOT NULL
@@ -54,7 +56,7 @@ CREATE TABLE release (
 , release_date date NOT NULL
 , create_date date NOT NULL
 , CONSTRAINT release_pk PRIMARY KEY (id)
-, appuser_id integer not null references appuser(id)
+, appuser_id integer references appuser(id)
 , label_id integer not null references label(id)
 , format_id integer not null references format(id)
 );
@@ -88,8 +90,8 @@ CREATE TABLE release_genre (
 );
 
 -- INSERT DATA --
-INSERT INTO appuser(id, username, firstname, lastname)
-	VALUES (1, 'vboukonis', 'Vasilis', 'Boukonis');
+INSERT INTO appuser(id, username, email, password, firstname, lastname)
+	VALUES (1, 'vboukonis', 'vbouk@mail.com', '123456', 'Vasilis', 'Boukonis');
 
 INSERT INTO label(id, name, catno)
 	VALUES (1, 'Virgin EMI Records', 'ENOLP5')
