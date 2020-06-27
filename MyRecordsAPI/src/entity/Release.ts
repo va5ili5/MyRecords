@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Label } from './Label';
 
 @Entity()
@@ -10,5 +16,6 @@ export class Release {
   title!: string;
 
   @ManyToOne((type) => Label, (label) => label.releases)
+  @JoinColumn({ name: 'label_id' })
   label!: Label;
 }

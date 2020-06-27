@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 import { EncryptionTransformer } from 'typeorm-encrypted';
 import { MyEncryptionTransformerConfig } from '../../encryption-config';
 
-@Entity()
+@Entity('appuser')
 export class User {
   @PrimaryGeneratedColumn()
   id!: number;
