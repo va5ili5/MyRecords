@@ -5,9 +5,10 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import { createConnection } from 'typeorm';
-import labelRouter from './routes/label.route';
+import labelRoutes from './routes/label.route';
 import releaseRoutes from './routes/release.route';
 import userRoutes from './routes/user.route';
+import artistRoutes from './routes/artist.route';
 dotenv.config();
 
 // app variables
@@ -23,7 +24,8 @@ app.use(express.json());
 createConnection();
 app.use(userRoutes);
 app.use(releaseRoutes);
-app.use(labelRouter);
+app.use(labelRoutes);
+app.use(artistRoutes);
 app.listen(PORT, () => {
   console.log(`listening on ${PORT}`);
 });

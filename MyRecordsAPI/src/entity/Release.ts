@@ -4,8 +4,11 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { Label } from './Label';
+import { Artist } from './Artist';
 
 @Entity()
 export class Release {
@@ -18,4 +21,8 @@ export class Release {
   @ManyToOne((type) => Label, (label) => label.releases)
   @JoinColumn({ name: 'label_id' })
   label!: Label;
+
+  @ManyToMany((type) => Artist)
+  @JoinTable({ name: 'release_artist' })
+  artists!: Artist[];
 }
