@@ -1,0 +1,743 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.2
+-- Dumped by pg_dump version 12.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA public;
+
+
+ALTER SCHEMA public OWNER TO postgres;
+
+--
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: appuser; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.appuser (
+    id integer NOT NULL,
+    email character(255) NOT NULL,
+    password character(255) NOT NULL,
+    username character(255) NOT NULL,
+    firstname character(255) NOT NULL,
+    lastname character(255) NOT NULL
+);
+
+
+ALTER TABLE public.appuser OWNER TO postgres;
+
+--
+-- Name: appuser_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.appuser_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.appuser_id_seq OWNER TO postgres;
+
+--
+-- Name: appuser_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.appuser_id_seq OWNED BY public.appuser.id;
+
+
+--
+-- Name: artist; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.artist (
+    id integer NOT NULL,
+    name character(100) NOT NULL,
+    profile character(500)
+);
+
+
+ALTER TABLE public.artist OWNER TO postgres;
+
+--
+-- Name: artist_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.artist_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.artist_id_seq OWNER TO postgres;
+
+--
+-- Name: artist_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.artist_id_seq OWNED BY public.artist.id;
+
+
+--
+-- Name: format; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.format (
+    id integer NOT NULL,
+    name character(20) NOT NULL
+);
+
+
+ALTER TABLE public.format OWNER TO postgres;
+
+--
+-- Name: format_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.format_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.format_id_seq OWNER TO postgres;
+
+--
+-- Name: format_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.format_id_seq OWNED BY public.format.id;
+
+
+--
+-- Name: genre; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.genre (
+    id integer NOT NULL,
+    name character(255) NOT NULL
+);
+
+
+ALTER TABLE public.genre OWNER TO postgres;
+
+--
+-- Name: genre_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.genre_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.genre_id_seq OWNER TO postgres;
+
+--
+-- Name: genre_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.genre_id_seq OWNED BY public.genre.id;
+
+
+--
+-- Name: label; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.label (
+    id integer NOT NULL,
+    name character(100) NOT NULL,
+    catno character(50) NOT NULL
+);
+
+
+ALTER TABLE public.label OWNER TO postgres;
+
+--
+-- Name: label_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.label_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.label_id_seq OWNER TO postgres;
+
+--
+-- Name: label_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.label_id_seq OWNED BY public.label.id;
+
+
+--
+-- Name: release; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.release (
+    id integer NOT NULL,
+    title character(255) NOT NULL,
+    format_details character(255) NOT NULL,
+    country character(50) NOT NULL,
+    release_date date NOT NULL,
+    create_date date NOT NULL,
+    appuser_id integer,
+    label_id integer NOT NULL,
+    format_id integer NOT NULL
+);
+
+
+ALTER TABLE public.release OWNER TO postgres;
+
+--
+-- Name: release_artist; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.release_artist (
+    "releaseId" integer NOT NULL,
+    "artistId" integer NOT NULL
+);
+
+
+ALTER TABLE public.release_artist OWNER TO postgres;
+
+--
+-- Name: release_genre; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.release_genre (
+    release_id integer NOT NULL,
+    genre_id integer NOT NULL
+);
+
+
+ALTER TABLE public.release_genre OWNER TO postgres;
+
+--
+-- Name: release_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.release_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.release_id_seq OWNER TO postgres;
+
+--
+-- Name: release_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.release_id_seq OWNED BY public.release.id;
+
+
+--
+-- Name: song; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.song (
+    title character(255) NOT NULL,
+    "position" integer NOT NULL,
+    length time without time zone NOT NULL,
+    release_id integer NOT NULL,
+    artist_id integer NOT NULL
+);
+
+
+ALTER TABLE public.song OWNER TO postgres;
+
+--
+-- Name: style; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.style (
+    id integer NOT NULL,
+    name character(255) NOT NULL,
+    genre_id integer
+);
+
+
+ALTER TABLE public.style OWNER TO postgres;
+
+--
+-- Name: style_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.style_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.style_id_seq OWNER TO postgres;
+
+--
+-- Name: style_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.style_id_seq OWNED BY public.style.id;
+
+
+--
+-- Name: appuser id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appuser ALTER COLUMN id SET DEFAULT nextval('public.appuser_id_seq'::regclass);
+
+
+--
+-- Name: artist id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.artist ALTER COLUMN id SET DEFAULT nextval('public.artist_id_seq'::regclass);
+
+
+--
+-- Name: format id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.format ALTER COLUMN id SET DEFAULT nextval('public.format_id_seq'::regclass);
+
+
+--
+-- Name: genre id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genre ALTER COLUMN id SET DEFAULT nextval('public.genre_id_seq'::regclass);
+
+
+--
+-- Name: label id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.label ALTER COLUMN id SET DEFAULT nextval('public.label_id_seq'::regclass);
+
+
+--
+-- Name: release id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release ALTER COLUMN id SET DEFAULT nextval('public.release_id_seq'::regclass);
+
+
+--
+-- Name: style id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.style ALTER COLUMN id SET DEFAULT nextval('public.style_id_seq'::regclass);
+
+
+--
+-- Data for Name: appuser; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.appuser (id, email, password, username, firstname, lastname) FROM stdin;
+1	vbouk@mail.com                                                                                                                                                                                                                                                 	123456                                                                                                                                                                                                                                                         	vboukonis                                                                                                                                                                                                                                                      	Vasilis                                                                                                                                                                                                                                                        	Boukonis                                                                                                                                                                                                                                                       
+6	email@mail.com                                                                                                                                                                                                                                                 	123456                                                                                                                                                                                                                                                         	username1                                                                                                                                                                                                                                                      	firstname1                                                                                                                                                                                                                                                     	lastname1                                                                                                                                                                                                                                                      
+7	email@mail.com                                                                                                                                                                                                                                                 	/1rBkZBCSx2I+UGe+UmuVrZNRvs2ubegt7FAiSiKV58=                                                                                                                                                                                                                   	username1                                                                                                                                                                                                                                                      	firstname1                                                                                                                                                                                                                                                     	lastname1                                                                                                                                                                                                                                                      
+8	email2@mail.com                                                                                                                                                                                                                                                	4v/9tauXOVPaJ5fnGH/+z+G4E3HfGRXWaVmlKIX9KLg=                                                                                                                                                                                                                   	username2                                                                                                                                                                                                                                                      	firstname2                                                                                                                                                                                                                                                     	lastname2                                                                                                                                                                                                                                                      
+9	email@mail.com                                                                                                                                                                                                                                                 	n1oLWaN7f+n2m1rkvrscRIDycmgupBdAnoVVyAj1CqQ=                                                                                                                                                                                                                   	user1name                                                                                                                                                                                                                                                      	first1name                                                                                                                                                                                                                                                     	last1name                                                                                                                                                                                                                                                      
+\.
+
+
+--
+-- Data for Name: artist; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.artist (id, name, profile) FROM stdin;
+1	Brian Eno                                                                                           	Brian Eno is an electronic musician and producer. Also known for his multifaceted interests outside of music, especially technological. He was born 15 May 1948 in Woodbridge, Suffolk, UK. He attended Ipswich and Winchester Arts Schools where he studied with Tom Phillips, Roy Ascott, Christian Wolff, Anthony Benjamin, Noel Forster and George Brecht.                                                                                                                                                      
+2	Gorillaz                                                                                            	Virtual band founded in 1998 by Damon Albarn from Blur, and comic-book artist Jamie Hewlett designing and drawing the band. It can be found in The Guiness Book of World Records under Most Successful Virtual Band. When the band were first created in 1998, the original concept was a group named 'Gorilla', with a slightly different lineup.                                                                                                                                                                  
+\.
+
+
+--
+-- Data for Name: format; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.format (id, name) FROM stdin;
+1	Vinyl               
+2	CD                  
+3	mp3                 
+\.
+
+
+--
+-- Data for Name: genre; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.genre (id, name) FROM stdin;
+1	Electronic                                                                                                                                                                                                                                                     
+2	Classic                                                                                                                                                                                                                                                        
+3	Rock                                                                                                                                                                                                                                                           
+\.
+
+
+--
+-- Data for Name: label; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.label (id, name, catno) FROM stdin;
+1	Virgin EMI Records                                                                                  	ENOLP5                                            
+2	Parlophone                                                                                          	0190295643423                                     
+\.
+
+
+--
+-- Data for Name: release; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.release (id, title, format_details, country, release_date, create_date, appuser_id, label_id, format_id) FROM stdin;
+1	Discreet Music                                                                                                                                                                                                                                                 	Clear Vinyl                                                                                                                                                                                                                                                    	Europe                                            	2018-11-16	2020-05-01	1	1	1
+2	The Now Now                                                                                                                                                                                                                                                    	Red Vinyl Ltd Edition                                                                                                                                                                                                                                          	Europe                                            	2018-07-29	2020-05-01	1	2	1
+\.
+
+
+--
+-- Data for Name: release_artist; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.release_artist ("releaseId", "artistId") FROM stdin;
+1	1
+2	2
+\.
+
+
+--
+-- Data for Name: release_genre; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.release_genre (release_id, genre_id) FROM stdin;
+1	1
+1	2
+2	3
+\.
+
+
+--
+-- Data for Name: song; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.song (title, "position", length, release_id, artist_id) FROM stdin;
+Discreet Music                                                                                                                                                                                                                                                 	1	00:31:35	1	1
+Fullness Of Wind                                                                                                                                                                                                                                               	2	00:09:57	1	1
+French Catalogues                                                                                                                                                                                                                                              	3	00:05:18	1	1
+Brutal Ardour                                                                                                                                                                                                                                                  	4	00:08:17	1	1
+Humility                                                                                                                                                                                                                                                       	1	00:03:17	2	2
+Tranz                                                                                                                                                                                                                                                          	2	00:02:42	2	2
+Hollywood                                                                                                                                                                                                                                                      	3	00:04:53	2	2
+Kansas                                                                                                                                                                                                                                                         	4	00:04:08	2	2
+Sorcererz                                                                                                                                                                                                                                                      	5	00:03:00	2	2
+Idaho                                                                                                                                                                                                                                                          	6	00:03:42	2	2
+Lake Zurich                                                                                                                                                                                                                                                    	7	00:04:12	2	2
+Magic City                                                                                                                                                                                                                                                     	8	00:03:59	2	2
+Fire Flies                                                                                                                                                                                                                                                     	9	00:03:53	2	2
+One Percent                                                                                                                                                                                                                                                    	10	00:02:21	2	2
+Souk Eye                                                                                                                                                                                                                                                       	11	00:04:34	2	2
+\.
+
+
+--
+-- Data for Name: style; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.style (id, name, genre_id) FROM stdin;
+1	Experimental                                                                                                                                                                                                                                                   	1
+2	Ambient                                                                                                                                                                                                                                                        	1
+3	Alternative Rock                                                                                                                                                                                                                                               	3
+\.
+
+
+--
+-- Name: appuser_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.appuser_id_seq', 9, true);
+
+
+--
+-- Name: artist_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.artist_id_seq', 1, false);
+
+
+--
+-- Name: format_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.format_id_seq', 1, false);
+
+
+--
+-- Name: genre_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.genre_id_seq', 1, false);
+
+
+--
+-- Name: label_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.label_id_seq', 1, false);
+
+
+--
+-- Name: release_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.release_id_seq', 1, false);
+
+
+--
+-- Name: style_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.style_id_seq', 1, false);
+
+
+--
+-- Name: artist artist_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.artist
+    ADD CONSTRAINT artist_pk PRIMARY KEY (id);
+
+
+--
+-- Name: format format_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.format
+    ADD CONSTRAINT format_pk PRIMARY KEY (id);
+
+
+--
+-- Name: genre genre_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genre
+    ADD CONSTRAINT genre_pk PRIMARY KEY (id);
+
+
+--
+-- Name: label label_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.label
+    ADD CONSTRAINT label_pk PRIMARY KEY (id);
+
+
+--
+-- Name: release_artist release_artist_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release_artist
+    ADD CONSTRAINT release_artist_pkey PRIMARY KEY ("releaseId", "artistId");
+
+
+--
+-- Name: release_genre release_genre_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release_genre
+    ADD CONSTRAINT release_genre_pkey PRIMARY KEY (release_id, genre_id);
+
+
+--
+-- Name: release release_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release
+    ADD CONSTRAINT release_pk PRIMARY KEY (id);
+
+
+--
+-- Name: song song_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.song
+    ADD CONSTRAINT song_pk PRIMARY KEY ("position", release_id, artist_id);
+
+
+--
+-- Name: style style_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.style
+    ADD CONSTRAINT style_pk PRIMARY KEY (id);
+
+
+--
+-- Name: appuser user_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appuser
+    ADD CONSTRAINT user_pk PRIMARY KEY (id);
+
+
+--
+-- Name: release_artist artist_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release_artist
+    ADD CONSTRAINT artist_fk FOREIGN KEY ("artistId") REFERENCES public.artist(id);
+
+
+--
+-- Name: release_genre genre_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release_genre
+    ADD CONSTRAINT genre_fk FOREIGN KEY (genre_id) REFERENCES public.genre(id);
+
+
+--
+-- Name: release release_appuser_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release
+    ADD CONSTRAINT release_appuser_id_fkey FOREIGN KEY (appuser_id) REFERENCES public.appuser(id);
+
+
+--
+-- Name: release_artist release_artist_artist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release_artist
+    ADD CONSTRAINT release_artist_artist_id_fkey FOREIGN KEY ("artistId") REFERENCES public.artist(id) ON UPDATE CASCADE;
+
+
+--
+-- Name: release_artist release_artist_release_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release_artist
+    ADD CONSTRAINT release_artist_release_id_fkey FOREIGN KEY ("releaseId") REFERENCES public.release(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: release_artist release_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release_artist
+    ADD CONSTRAINT release_fk FOREIGN KEY ("releaseId") REFERENCES public.release(id);
+
+
+--
+-- Name: release_genre release_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release_genre
+    ADD CONSTRAINT release_fk FOREIGN KEY (release_id) REFERENCES public.release(id);
+
+
+--
+-- Name: release release_format_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release
+    ADD CONSTRAINT release_format_id_fkey FOREIGN KEY (format_id) REFERENCES public.format(id);
+
+
+--
+-- Name: release_genre release_genre_genre_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release_genre
+    ADD CONSTRAINT release_genre_genre_id_fkey FOREIGN KEY (genre_id) REFERENCES public.genre(id) ON UPDATE CASCADE;
+
+
+--
+-- Name: release_genre release_genre_release_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release_genre
+    ADD CONSTRAINT release_genre_release_id_fkey FOREIGN KEY (release_id) REFERENCES public.release(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: release release_label_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.release
+    ADD CONSTRAINT release_label_id_fkey FOREIGN KEY (label_id) REFERENCES public.label(id);
+
+
+--
+-- Name: song song_artist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.song
+    ADD CONSTRAINT song_artist_id_fkey FOREIGN KEY (artist_id) REFERENCES public.artist(id);
+
+
+--
+-- Name: song song_release_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.song
+    ADD CONSTRAINT song_release_id_fkey FOREIGN KEY (release_id) REFERENCES public.release(id);
+
+
+--
+-- Name: style style_genre_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.style
+    ADD CONSTRAINT style_genre_id_fkey FOREIGN KEY (genre_id) REFERENCES public.genre(id) ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
