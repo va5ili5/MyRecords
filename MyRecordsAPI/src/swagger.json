@@ -3,10 +3,52 @@
   "info": {
     "version": "1.0.0",
     "title": "My Records API",
-    "description": "A simple API to learn how to write OpenAPI Specification"
+    "description": "A simple API to manage your music collection",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
   },
-  "schemes": ["https"],
-  "host": "simple.api",
-  "basePath": "/openapi101",
-  "paths": {}
+  "schemes": ["http", "https"],
+  "consumes": "application/json",
+  "produces": "application/json",
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "paths": {
+    "/labels": {
+      "get": {
+        "tags": ["Labels"],
+        "summary": "Get all labels",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Labels"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Label": {
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "catno": {
+          "type": "string"
+        }
+      }
+    },
+    "Labels": {
+      "type": "array",
+      "$ref": "#/definitions/Label"
+    }
+  }
 }
