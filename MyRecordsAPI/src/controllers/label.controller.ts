@@ -9,3 +9,14 @@ export const getLabels = async (
   const labels = await getRepository(Label).find({ relations: ['releases'] });
   return response.status(200).json(labels);
 };
+
+export const getLabelById = async (
+  request: Request,
+  response: Response
+): Promise<Response> => {
+  const labelId = request.params.id;
+  const label = await getRepository(Label).findOne(labelId, {
+    //relations: ['label', 'artists'],
+  });
+  return response.status(200).json(label);
+};

@@ -24,9 +24,45 @@
         "summary": "Get all labels",
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "A list of the labels",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "$ref": "#/components/schemas/labels"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/labels/{id}": {
+      "get": {
+        "tags": ["Label"],
+        "summary": "Get label by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
             "schema": {
-              "$ref": "#/components/schemas/labels"
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A label",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/label"
+                }
+              }
             }
           }
         }
