@@ -13,15 +13,14 @@ export class Label {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({
-    length: 100,
-  })
+  @Column()
   name!: string;
 
-  @Column({
-    length: 50,
-  })
-  catno!: string;
+  @Column()
+  profile!: string;
+
+  @Column()
+  url!: string;
 
   @OneToMany((type) => Release, (release) => release.label)
   releases!: Release[];

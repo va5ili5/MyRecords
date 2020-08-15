@@ -4,6 +4,7 @@ import {
   Entity,
   ManyToMany,
   JoinTable,
+  JoinColumn,
 } from 'typeorm';
 import { Release } from './Release';
 
@@ -12,17 +13,16 @@ export class Artist {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({
-    length: 100,
-  })
+  @Column()
   name!: string;
 
-  @Column({
-    length: 500,
-  })
+  @Column()
   profile!: string;
 
   @ManyToMany((type) => Release)
-  @JoinTable({ name: 'release_artist' })
+  @JoinTable({
+    name: 'release_artist',
+    joinColumn: { name: 'release_id' },
+  })
   releases!: Release[];
 }
