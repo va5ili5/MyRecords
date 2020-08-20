@@ -18,6 +18,9 @@ export class Release {
   @Column()
   title!: string;
 
+  @Column({ name: 'format_details' })
+  formatDetails!: string;
+
   @Column()
   catno!: string;
 
