@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Label } from './Label';
 import { Artist } from './Artist';
+import { Country } from './Country';
 
 @Entity()
 export class Release {
@@ -23,6 +24,10 @@ export class Release {
 
   @Column()
   catno!: string;
+
+  @ManyToOne((type) => Country, (country) => country.releases)
+  @JoinColumn({ name: 'country_id' })
+  country!: Country;
 
   @ManyToOne((type) => Label, (label) => label.releases)
   @JoinColumn({ name: 'label_id' })

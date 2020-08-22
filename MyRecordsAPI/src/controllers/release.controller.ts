@@ -7,7 +7,7 @@ export const getReleases = async (
   response: Response
 ): Promise<Response> => {
   const releases = await getRepository(Release).find({
-    relations: ['label', 'artists'],
+    relations: ['label', 'artists', 'country'],
   });
   return response.status(200).json(releases);
 };
@@ -18,7 +18,7 @@ export const getReleaseById = async (
 ): Promise<Response> => {
   const release_id = request.params.id;
   const release = await getRepository(Release).findOne(release_id, {
-    relations: ['label', 'artists'],
+    relations: ['label', 'artists', 'country'],
   });
   return response.status(200).json(release);
 };
