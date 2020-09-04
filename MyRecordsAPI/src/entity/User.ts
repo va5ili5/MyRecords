@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 import { EncryptionTransformer } from 'typeorm-encrypted';
 import { MyEncryptionTransformerConfig } from '../encryption-config';
+import { Release } from './Release';
 
 @Entity('appuser')
 export class User {
@@ -16,6 +17,7 @@ export class User {
   @Column({
     type: 'varchar',
     nullable: false,
+    select: false,
     transformer: new EncryptionTransformer(MyEncryptionTransformerConfig),
   })
   @Length(2, 30, {
@@ -47,4 +49,7 @@ export class User {
   })
   @IsNotEmpty({ message: 'The name is required' })
   lastname!: string;
+
+  @OneToMany((type) => Release, (release) => release.user)
+  releases!: Release[];
 }

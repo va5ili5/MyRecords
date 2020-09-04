@@ -10,6 +10,8 @@ import {
 import { Label } from './Label';
 import { Artist } from './Artist';
 import { Country } from './Country';
+import { User } from './User';
+import { Format } from './Format';
 
 @Entity()
 export class Release {
@@ -25,6 +27,16 @@ export class Release {
   @Column()
   catno!: string;
 
+  @Column({ name: 'release_date' })
+  releaseDate!: Date;
+
+  @Column({ name: 'create_date' })
+  createDate!: Date;
+
+  @ManyToOne((type) => User, (user) => user.releases)
+  @JoinColumn({ name: 'appuser_id' })
+  user!: User;
+
   @ManyToOne((type) => Country, (country) => country.releases)
   @JoinColumn({ name: 'country_id' })
   country!: Country;
@@ -32,6 +44,10 @@ export class Release {
   @ManyToOne((type) => Label, (label) => label.releases)
   @JoinColumn({ name: 'label_id' })
   label!: Label;
+
+  @ManyToOne((type) => Format, (format) => format.releases)
+  @JoinColumn({ name: 'format_id' })
+  format!: Format;
 
   @ManyToMany((type) => Artist)
   @JoinTable({
