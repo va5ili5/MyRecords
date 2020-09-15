@@ -11,6 +11,8 @@ import userRoutes from './routes/user.route';
 import artistRoutes from './routes/artist.route';
 import swaggerUi from 'swagger-ui-express';
 import * as swaggerDocument from './swagger.json';
+
+import { Image } from './entity/Image';
 dotenv.config();
 
 // app variables

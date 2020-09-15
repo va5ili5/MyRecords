@@ -28,8 +28,12 @@ export const getReleaseById = async (
   response: Response
 ): Promise<Response> => {
   const release_id = request.params.id;
-  const release = await getRepository(Release).findOne(release_id, {
-    relations: ['label', 'artists', 'country'],
-  });
+  const release = await getRepository(Release)
+    .createQueryBuilder('release')
+    .where('release.id = :id', { id: release_id })
+    .select('release')
+    .addSelect(['artist.id', 'artist.name'])
+    .innerJoin('release.artists', 'artist')
+    .getOne();
   return response.status(200).json(release);
 };

@@ -71,6 +71,16 @@ CREATE TABLE release (
 , country_id integer references country(id)
 );
 
+DROP TABLE IF EXISTS image;
+CREATE TABLE image (
+  id serial NOT NULL
+, CONSTRAINT image_pk PRIMARY KEY (id)
+, name text NOT NULL
+, data bytea NOT NULL
+, mimeType text NOT NULL;
+, release_id integer REFERENCES release(id) ON DELETE CASCADE
+);
+
 DROP TABLE IF EXISTS song;
 CREATE TABLE song (
   title text NOT NULL

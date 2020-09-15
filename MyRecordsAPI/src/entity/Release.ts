@@ -6,13 +6,14 @@ import {
   JoinColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { Label } from './Label';
 import { Artist } from './Artist';
 import { Country } from './Country';
 import { User } from './User';
 import { Format } from './Format';
-
+import { Image } from './Image';
 @Entity()
 export class Release {
   @PrimaryGeneratedColumn()
@@ -48,6 +49,9 @@ export class Release {
   @ManyToOne((type) => Format, (format) => format.releases)
   @JoinColumn({ name: 'format_id' })
   format!: Format;
+
+  @OneToMany((type) => Image, (image) => image.release)
+  images!: Image[];
 
   @ManyToMany((type) => Artist)
   @JoinTable({
