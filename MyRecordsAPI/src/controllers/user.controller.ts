@@ -2,7 +2,10 @@ import { Request, Response } from 'express';
 import { User } from '../entity/User';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import * as dotenv from 'dotenv';
 import { getRepository } from 'typeorm';
+
+dotenv.config();
 
 export const getUserById = async (
   request: Request,
@@ -19,7 +22,7 @@ export const loginUser = async (request: Request, response: Response) => {
   });
   if (!user) {
     return response.status(401).json({
-      message: 'Authentication failed 1',
+      message: 'Authentication failed',
     });
   }
   return bcrypt
@@ -27,13 +30,19 @@ export const loginUser = async (request: Request, response: Response) => {
     .then((result) => {
       if (!result) {
         return response.status(401).json({
-          message: 'Authentication failed 2',
+          message: 'Authentication failed',
         });
       }
-      const token = jwt.sign({ email: user.email, userId: user.id }, 'secret', {
-        expiresIn: '1h',
-      });
-      response.status(200).json({ token: token });
+      const token = jwt.sign(
+        { email: user.email, userId: user.id },
+        process.env.JWTSECRET!,
+        {
+          expiresIn: '1h',
+        }
+      );
+      response
+        .status(200)
+        .json({ token: token, expiresIn: 3600, userId: user.id });
     })
     .catch((error) => {
       if (error) {
@@ -63,6 +72,4 @@ export const signUpUser = async (request: Request, response: Response) => {
         });
       });
   });
-
-  //return response.status(201).json(user);
 };

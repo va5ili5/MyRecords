@@ -20,3 +20,23 @@ export const getLabelById = async (
   });
   return response.status(200).json(label);
 };
+
+export const createLabel = async (
+  request: Request,
+  response: Response
+): Promise<Response> => {
+  const label = await getRepository(Label)
+    .save({
+      id: 3,
+      name: 'EMI',
+      profile:
+        'EMI was the label of UK company EMI Records Ltd., also known as EMI Records.Label Code: LC 0542 / LC 00542.',
+      url: 'emimusic.com',
+    })
+    .catch((error) => {
+      response.status(500).json({
+        error: error,
+      });
+    });
+  return response.status(200).json(label);
+};

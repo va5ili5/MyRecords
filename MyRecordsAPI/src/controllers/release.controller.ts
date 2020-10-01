@@ -1,7 +1,11 @@
-import { Request, Response } from 'express';
+import { NextFunction, request, Request, Response } from 'express';
 import { Release } from '../entity/Release';
 import { getRepository } from 'typeorm';
 import { User } from '../entity/User';
+import { Artist } from '../entity/Artist';
+import { Country } from '../entity/Country';
+import { Format } from '../entity/Format';
+import { Label } from '../entity/Label';
 
 export const getReleases = async (
   request: Request,
@@ -35,5 +39,27 @@ export const getReleaseById = async (
     .addSelect(['artist.id', 'artist.name'])
     .innerJoin('release.artists', 'artist')
     .getOne();
+  return response.status(200).json(release);
+};
+
+export const createRelease = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+): Promise<Response> => {
+  const artist = await getRepository(Artist).findOne(3);
+  const country = await getRepository(Country).findOne(231);
+  const format = await getRepository(Format).findOne(2);
+  const label = await getRepository(Label).findOne(2);
+  const release = new Release();
+  release.title = 'Brave New World';
+  release.artists.push(artist!);
+  release.catno = '7243 5 26605 2 0, 5 26605 2, 526 6052';
+  release.country = country!;
+  release.createDate = new Date();
+  release.format = format!;
+  release.formatDetails = 'Album';
+  release.label = label!;
+  await getRepository(Release).create;
   return response.status(200).json(release);
 };

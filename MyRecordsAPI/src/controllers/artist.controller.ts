@@ -10,8 +10,15 @@ export const getArtists = async (
   return response.status(200).json(artists);
 };
 
-/*
-.createQueryBuilder("category")
-    .leftJoinAndSelect("category.questions", "question")
-    .getMany();
-*/
+export const createArtist = async (
+  request: Request,
+  response: Response
+): Promise<Response> => {
+  const artist = await getRepository(Artist).save({
+    name: 'Iron Maiden',
+    profile:
+      'Iron Maiden are an English heavy metal band formed in Leyton, East London, in 1975 by bassist and primary songwriter Steve Harris.',
+    releases: [],
+  });
+  return response.status(200).json(artist);
+};

@@ -17,7 +17,37 @@
   ],
   "consumes": "application/json",
   "produces": "application/json",
+  "security": {
+    "bearerAuth": []
+  },
   "paths": {
+    "/users/signup": {
+      "post": {
+        "tags": ["Signup User"],
+        "summary": "Signup User",
+        "requestBody": {
+          "description": "the user to sign up",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The user signed up",
+            "schema": {
+              "message": "User Created",
+              "$ref": "#/components/schemas/user"
+            }
+          }
+        }
+      }
+    },
+    "users/login": {},
     "/labels": {
       "get": {
         "tags": ["Labels"],
@@ -67,10 +97,86 @@
           }
         }
       }
+    },
+    "/labels/create": {
+      "post": {
+        "security": {
+          "bearerAuth": []
+        },
+        "tags": ["Create Label"],
+        "summary": "Create Label",
+        "parameters": [
+          {
+            "name": "Label",
+            "in": "body",
+            "description": "the label we want to create",
+            "schema": {
+              "$ref": "#/components/schemas/label"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New label is created",
+            "schema": {
+              "$ref": "#/components/schemas/label"
+            }
+          }
+        }
+      }
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
+      "user": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "releases": {
+            "type": "array",
+            "$ref": "#/components/schemas/release"
+          }
+        }
+      },
+      "release": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+      "releases": {
+        "type": "array",
+        "$ref": "#/components/schemas/release"
+      },
       "label": {
         "type": "object",
         "required": ["id"],
@@ -82,8 +188,15 @@
           "name": {
             "type": "string"
           },
-          "catno": {
+          "profile": {
             "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "releases": {
+            "type": "array",
+            "$ref": "#/components/schemas/release"
           }
         }
       },

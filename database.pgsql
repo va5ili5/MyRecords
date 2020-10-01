@@ -1,83 +1,74 @@
 DROP TABLE IF EXISTS appuser;
 CREATE TABLE appuser (
-  id serial NOT NULL
+  id SERIAL PRIMARY KEY
 , email text NOT NULL
 , password text NOT NULL
 , username text NOT NULL
 , firstname text NOT NULL
 , lastname text NOT NULL
-, CONSTRAINT user_pk PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS genre;
 CREATE TABLE genre (
-  id serial NOT NULL
+  id SERIAL PRIMARY KEY
 , name text NOT NULL
-, CONSTRAINT genre_pk PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS label;
 CREATE TABLE label (
-  id serial NOT NULL
+  id SERIAL PRIMARY KEY
 , name text NOT NULL
 , profile text
 , url text
-, CONSTRAINT label_pk PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS format;
 CREATE TABLE format (
-  id serial NOT NULL
+  id SERIAL PRIMARY KEY
 , name text NOT NULL
-, CONSTRAINT format_pk PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS country;
 CREATE TABLE country (
-  id serial NOT NULL
+  id SERIAL PRIMARY KEY
 , name text NOT NULL
 , iso char(2) NOT NULL
-, CONSTRAINT country_pk PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS artist;
 CREATE TABLE artist (
-  id serial NOT NULL
+  id SERIAL PRIMARY KEY
 , name text NOT NULL
 , profile text
-, CONSTRAINT artist_pk PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS style;
 CREATE TABLE style (
-  id serial NOT NULL
-, CONSTRAINT style_pk PRIMARY KEY (id)
+  id SERIAL PRIMARY KEY
 , name text NOT NULL
 , genre_id integer REFERENCES genre(id) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS release;
 CREATE TABLE release (
-  id serial NOT NULL
+  id SERIAL PRIMARY KEY
 , title text NOT NULL
 , format_details text NOT NULL
 , catno text
 , release_date date NOT NULL
 , create_date date NOT NULL
-, CONSTRAINT release_pk PRIMARY KEY (id)
-, appuser_id integer not null references appuser(id)
-, label_id integer not null references label(id)
-, format_id integer not null references format(id)
-, country_id integer references country(id)
+, appuser_id integer  NOT NULL REFERENCES appuser(id)
+, label_id integer  NOT NULL REFERENCES label(id)
+, format_id integer  NOT NULL REFERENCES format(id)
+, country_id integer REFERENCES country(id)
 );
 
 DROP TABLE IF EXISTS image;
 CREATE TABLE image (
-  id serial NOT NULL
-, CONSTRAINT image_pk PRIMARY KEY (id)
+  id SERIAL PRIMARY KEY
 , name text NOT NULL
 , data bytea NOT NULL
-, mimeType text NOT NULL;
+, mimeType text NOT NULL
 , release_id integer REFERENCES release(id) ON DELETE CASCADE
 );
 
@@ -86,27 +77,27 @@ CREATE TABLE song (
   title text NOT NULL
 , position integer NOT NULL
 , length time NOT NULL
-, release_id integer not null references release(id)
-, artist_id integer not null references artist(id)
-, CONSTRAINT song_pk PRIMARY KEY (position, release_id, artist_id)
+, release_id integer NOT NULL REFERENCES release(id)
+, artist_id integer NOT NULL REFERENCES artist(id)
+, PRIMARY KEY (position, release_id, artist_id)
 );
 
 DROP TABLE IF EXISTS release_artist;
 CREATE TABLE release_artist (
   release_id integer REFERENCES release (id) ON UPDATE CASCADE ON DELETE CASCADE
 , artist_id integer REFERENCES artist (id) ON UPDATE CASCADE
-, CONSTRAINT release_fk FOREIGN KEY(release_id) REFERENCES release(id)
-, CONSTRAINT artist_fk FOREIGN KEY(artist_id) REFERENCES artist(id)
-, CONSTRAINT release_artist_pkey PRIMARY KEY (release_id, artist_id)
+, FOREIGN KEY(release_id) REFERENCES release(id)
+, FOREIGN KEY(artist_id) REFERENCES artist(id)
+, PRIMARY KEY (release_id, artist_id)
 );
 
 DROP TABLE IF EXISTS release_genre;
 CREATE TABLE release_genre (
   release_id integer REFERENCES release (id) ON UPDATE CASCADE ON DELETE CASCADE
 , genre_id integer REFERENCES genre (id) ON UPDATE CASCADE
-, CONSTRAINT release_fk FOREIGN KEY(release_id) REFERENCES release(id)
-, CONSTRAINT genre_fk FOREIGN KEY(genre_id) REFERENCES genre(id)
-, CONSTRAINT release_genre_pkey PRIMARY KEY (release_id, genre_id)
+, FOREIGN KEY(release_id) REFERENCES release(id)
+, FOREIGN KEY(genre_id) REFERENCES genre(id)
+, PRIMARY KEY (release_id, genre_id)
 );
 
 -- INSERT DATA --
