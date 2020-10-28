@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Release } from './Release';
 
-@Entity()
+@Entity({name: 'artist'})
 export class Artist {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -18,11 +18,4 @@ export class Artist {
 
   @Column()
   profile!: string;
-
-  @ManyToMany((type) => Release)
-  @JoinTable({
-    name: 'release_artist',
-    joinColumn: { name: 'release_id' },
-  })
-  releases!: Release[];
 }

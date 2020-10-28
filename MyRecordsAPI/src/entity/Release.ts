@@ -14,6 +14,8 @@ import { Country } from './Country';
 import { User } from './User';
 import { Format } from './Format';
 import { Image } from './Image';
+import { Genre } from './Genre';
+import { Style } from './Style';
 @Entity()
 export class Release {
   @PrimaryGeneratedColumn()
@@ -34,36 +36,64 @@ export class Release {
   @Column({ name: 'create_date' })
   createDate!: Date;
 
-  @ManyToOne((type) => User, (user) => user.releases)
+  @ManyToOne(() => User, (user) => user.releases)
   @JoinColumn({ name: 'appuser_id' })
   user!: User;
 
-  @ManyToOne((type) => Country, (country) => country.releases)
+  @ManyToOne(() => Country, (country) => country.releases)
   @JoinColumn({ name: 'country_id' })
   country!: Country;
 
-  @ManyToOne((type) => Label, (label) => label.releases)
+  @ManyToOne(() => Label, (label) => label.releases)
   @JoinColumn({ name: 'label_id' })
   label!: Label;
 
-  @ManyToOne((type) => Format, (format) => format.releases)
+  @ManyToOne(() => Format, (format) => format.releases)
   @JoinColumn({ name: 'format_id' })
   format!: Format;
 
-  @OneToMany((type) => Image, (image) => image.release)
+  @OneToMany(() => Image, (image) => image.release)
   images!: Image[];
 
-  @ManyToMany((type) => Artist)
+  @ManyToMany(() => Artist, { cascade: true })
   @JoinTable({
     name: 'release_artist',
     joinColumn: {
-      name: 'artist_id',
+      name: 'release_id',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'release_id',
+      name: 'artist_id',
       referencedColumnName: 'id',
     },
   })
   artists!: Artist[];
+
+  @ManyToMany(() => Genre, { cascade: true })
+  @JoinTable({
+    name: 'release_genre',
+    joinColumn: {
+      name: 'release_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'genre_id',
+      referencedColumnName: 'id',
+    },
+  })
+  genres!: Genre[];
+
+  @ManyToMany(() => Style, { cascade: true })
+  @JoinTable({
+    name: 'release_style',
+    joinColumn: {
+      name: 'release_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'style_id',
+      referencedColumnName: 'id',
+    },
+  })
+  styles!: Style[];
 }

@@ -1,11 +1,13 @@
 import { NextFunction, request, Request, Response } from 'express';
 import { Release } from '../entity/Release';
-import { getRepository } from 'typeorm';
+import { getRepository, In } from 'typeorm';
 import { User } from '../entity/User';
 import { Artist } from '../entity/Artist';
 import { Country } from '../entity/Country';
 import { Format } from '../entity/Format';
 import { Label } from '../entity/Label';
+import { Genre } from '../entity/Genre';
+import { Style } from '../entity/Style';
 
 export const getReleases = async (
   request: Request,
@@ -21,9 +23,6 @@ export const getReleases = async (
     .innerJoin('release.artists', 'artist')
     .innerJoin('release.label', 'label')
     .getMany();
-  // .find({
-  //   relations: ['label', 'artists', 'country', 'user'],
-  // });
   return response.status(200).json(releases);
 };
 
@@ -31,10 +30,10 @@ export const getReleaseById = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
-  const release_id = request.params.id;
+  const releaseId = request.params.id;
   const release = await getRepository(Release)
     .createQueryBuilder('release')
-    .where('release.id = :id', { id: release_id })
+    .where('release.id = :id', { id: releaseId })
     .select('release')
     .addSelect(['artist.id', 'artist.name'])
     .innerJoin('release.artists', 'artist')
@@ -47,19 +46,27 @@ export const createRelease = async (
   response: Response,
   next: NextFunction
 ): Promise<Response> => {
-  const artist = await getRepository(Artist).findOne(3);
-  const country = await getRepository(Country).findOne(231);
-  const format = await getRepository(Format).findOne(2);
-  const label = await getRepository(Label).findOne(2);
+  const country = await getRepository(Country).findOneOrFail(request.body.countryId);
+  const format = await getRepository(Format).findOneOrFail(request.body.formatId);
+  const label = await getRepository(Label).findOneOrFail(request.body.labelId);
+  const artists = await getRepository(Artist).findByIds(request.body.artistsIds);
+  const styles = await getRepository(Style).findByIds(request.body.stylesIds);
+  const genres = await getRepository(Genre).findByIds(request.body.genresIds);
+
+  
   const release = new Release();
-  release.title = 'Brave New World';
-  release.artists.push(artist!);
-  release.catno = '7243 5 26605 2 0, 5 26605 2, 526 6052';
-  release.country = country!;
+  release.genres = [...genres];
+  console.log(styles)
+  release.styles = [...styles];
+  release.title = request.body.title;
+  release.artists = [...artists];
+  release.catno = request.body.catno;
+  release.country = country;
   release.createDate = new Date();
-  release.format = format!;
-  release.formatDetails = 'Album';
-  release.label = label!;
-  await getRepository(Release).create;
+  release.releaseDate = new Date();
+  release.format = format;
+  release.formatDetails = request.body.formatDetails;
+  release.label = label;
+  await getRepository(Release).save(release);
   return response.status(200).json(release);
 };

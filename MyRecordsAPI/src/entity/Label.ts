@@ -22,6 +22,6 @@ export class Label {
   @Column()
   url!: string;
 
-  @OneToMany((type) => Release, (release) => release.label)
+  @OneToMany(() => Release, (release) => release.label)
   releases!: Release[];
 }
