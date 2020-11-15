@@ -2,21 +2,23 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { MainComponent } from './main/main.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReleaseModule } from '../features/release/release.module';
+import { MaterialModule } from '../material/material.module';
+import { SharedModule } from '../shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, MainComponent],
+  declarations: [HeaderComponent, FooterComponent],
   imports: [
-    ReleaseModule,
     CommonModule,
-    MatToolbarModule
+    RouterModule,
+    SharedModule
   ],
   exports: [
-    MainComponent
+    HeaderComponent,
+    FooterComponent
   ]
 })
 export class CoreModule { }

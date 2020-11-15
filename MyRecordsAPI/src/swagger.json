@@ -47,7 +47,40 @@
         }
       }
     },
-    "users/login": {},
+    "/users/login": {
+      "post": {
+        "tags": ["Login User"],
+        "summary": "Login User",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user logged in successfuly",
+            "schema": {
+              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZtYWlsQG1haWwuY29tIiwidXNlcklkIjoxLCJpYXQiOjE2MDIxMDQzNDksImV4cCI6MTYwMjEwNzk0OX0.CfSHRzTY0DG-dOBLJd6ITH3MrC_E0yrGAdqnnPN3m_Y",
+              "expiresIn": 3600,
+              "userId": 1
+            }
+          }
+        }
+      }
+    },
     "/labels": {
       "get": {
         "tags": ["Labels"],

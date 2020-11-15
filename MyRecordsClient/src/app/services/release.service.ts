@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Release } from '../domain/release.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,9 @@ export class ReleaseService {
     })
   };
 
-  constructor(private httpClient: HttpClient) { }
-
-  getReleases(): Observable<Release[]> {
-
+  constructor(private http: HttpClient) { }
+  releases: Release[] = [];
+  getReleases(): Observable<Release[]>{
+    return this.http.get<Release[]>(this.endpoint + '/releases')
   }
 }

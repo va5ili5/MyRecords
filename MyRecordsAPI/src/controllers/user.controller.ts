@@ -53,7 +53,7 @@ export const loginUser = async (request: Request, response: Response) => {
     });
 };
 
-export const signUpUser = async (request: Request, response: Response) => {
+export const registerUser = async (request: Request, response: Response) => {
   bcrypt.hash(request.body.password, 10).then((hash) => {
     getRepository(User)
       .save({

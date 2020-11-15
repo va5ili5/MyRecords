@@ -1,1 +1,26 @@
-<mat-toolbar color="primary">My Records</mat-toolbar>
+<mat-toolbar color="primary" class="navbar">
+  <div><button mat-button routerLink="/">My Records</button></div>
+  <div>
+    <a
+      mat-button
+      *ngIf="!userIsAuthenticated"
+      routerLink="/authentication/login"
+      routerLinkActive="mat-accent"
+      >Login</a
+    >
+    <a
+      mat-button
+      *ngIf="userIsAuthenticated"
+      (click)="onLogout()"
+      routerLinkActive="mat-accent"
+      >Logout</a
+    >
+    <a
+      mat-button
+      *ngIf="!userIsAuthenticated"
+      routerLink="/authentication/register"
+      routerLinkActive="mat-accent"
+      >Register</a
+    >
+  </div>
+</mat-toolbar>
