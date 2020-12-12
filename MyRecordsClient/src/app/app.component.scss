@@ -1,0 +1,7 @@
+main {
+  display: flex;
+  flex-direction: column;
+  min-height: 85vh;
+  // Select all direct descendants only of the <main> element
+  // that are not <router-outlet> elements:
+}

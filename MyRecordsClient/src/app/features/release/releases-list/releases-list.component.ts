@@ -12,8 +12,8 @@ export class ReleasesListComponent implements OnInit {
   constructor(public releaseService: ReleaseService) { }
 
   ngOnInit(): void {
-    this.releaseService.getReleases().subscribe((rels: Release[]) => {
-      this.releases = rels;
+    this.releaseService.getReleases().subscribe((releases: Release[]) => {
+      this.releases = releases;
     })
   }
 

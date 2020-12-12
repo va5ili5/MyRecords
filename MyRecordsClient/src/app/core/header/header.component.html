@@ -3,6 +3,7 @@
   <div>
     <a
       mat-button
+      disableRipple
       *ngIf="!userIsAuthenticated"
       routerLink="/authentication/login"
       routerLinkActive="mat-accent"
@@ -10,6 +11,7 @@
     >
     <a
       mat-button
+      disableRipple
       *ngIf="userIsAuthenticated"
       (click)="onLogout()"
       routerLinkActive="mat-accent"
@@ -17,6 +19,7 @@
     >
     <a
       mat-button
+      disableRipple
       *ngIf="!userIsAuthenticated"
       routerLink="/authentication/register"
       routerLinkActive="mat-accent"
