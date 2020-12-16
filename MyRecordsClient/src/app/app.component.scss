@@ -1,7 +1,12 @@
+.container{
+  min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
 main {
-  display: flex;
-  flex-direction: column;
-  min-height: 85vh;
-  // Select all direct descendants only of the <main> element
-  // that are not <router-outlet> elements:
+  flex-grow: 1;
+}
+header, main, footer {
+  flex-shrink: 0;
 }

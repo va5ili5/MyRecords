@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
@@ -11,7 +12,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 export class LoginComponent implements OnInit {
 
   private authStatusSub: Subscription;
-  constructor(public authService: AuthenticationService) { }
+  constructor(public authService: AuthenticationService, public dialogRef: MatDialogRef<LoginComponent>) { }
 
   ngOnInit(): void {
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
@@ -30,5 +31,10 @@ export class LoginComponent implements OnInit {
   ngOnDestroy() {
     this.authStatusSub.unsubscribe();
   }
+
+  onCancelClick(): void {
+    this.dialogRef.close();
+  }
+  
 
 }

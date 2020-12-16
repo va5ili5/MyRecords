@@ -1,11 +1,13 @@
 <mat-toolbar color="primary" class="navbar">
-  <div><button mat-button routerLink="/">My Records</button></div>
-  <div>
+  <span>
+    <button mat-button routerLink="/">My Records</button>
+  </span>
+  <div fxLayout="row" fxShow="false" fxShow.gt-sm>
     <a
       mat-button
       disableRipple
       *ngIf="!userIsAuthenticated"
-      routerLink="/authentication/login"
+      (click)="openDialog()"
       routerLinkActive="mat-accent"
       >Login</a
     >
