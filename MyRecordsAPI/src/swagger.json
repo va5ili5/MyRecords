@@ -21,7 +21,7 @@
     "bearerAuth": []
   },
   "paths": {
-    "/users/signup": {
+    "/users/register": {
       "post": {
         "tags": ["Signup User"],
         "summary": "Signup User",

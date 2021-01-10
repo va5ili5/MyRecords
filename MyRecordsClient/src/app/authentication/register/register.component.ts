@@ -10,6 +10,8 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  isLoading: boolean = false;
+  
   constructor(private authService: AuthenticationService) { }
 
   ngOnInit(): void {
@@ -26,7 +28,7 @@ export class RegisterComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    //this.isLoading = true;
+    this.isLoading = true;
     this.authService.registerUser(user);
   }
 

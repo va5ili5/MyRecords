@@ -1,12 +1,9 @@
-<mat-card class="auth-form-card">
-  <mat-card-title class="auth-form-card-title">Registration</mat-card-title>
-  <mat-card-content>
-    <form
-      class="auth-form"
-      (submit)="onRegister(registerForm)"
-      #registerForm="ngForm"
-    >
-      <mat-form-field class="auth-form-field" appearance="standard">
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card-title>Registration</mat-card-title>
+  <form *ngIf="!isLoading" (submit)="onRegister(registerForm)" #registerForm="ngForm">
+    <mat-card-content>
+      <mat-form-field appearance="standard">
         <input
           matInput
           name="email"
@@ -21,7 +18,7 @@
           >Please enter a valid email.</mat-error
         >
       </mat-form-field>
-      <mat-form-field class="auth-form-field" appearance="standard">
+      <mat-form-field appearance="standard">
         <input
           type="password"
           name="password"
@@ -35,7 +32,7 @@
           >Please enter a valid password.</mat-error
         >
       </mat-form-field>
-      <mat-form-field class="auth-form-field" appearance="standard">
+      <mat-form-field appearance="standard">
         <input
           matInput
           name="username"
@@ -50,7 +47,7 @@
           >Please enter a username.</mat-error
         >
       </mat-form-field>
-      <mat-form-field class="auth-form-field" appearance="standard">
+      <mat-form-field appearance="standard">
         <input
           matInput
           name="firstname"
@@ -65,7 +62,7 @@
           >Please enter firstname.</mat-error
         >
       </mat-form-field>
-      <mat-form-field class="auth-form-field" appearance="standard">
+      <mat-form-field appearance="standard">
         <input
           matInput
           name="lastname"
@@ -80,16 +77,13 @@
           >Please enter lastname.</mat-error
         >
       </mat-form-field>
-
-      <mat-card-actions>
-        <button mat-raised-button color="accent" type="submit">Register</button>
-      </mat-card-actions>
-    </form>
   </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">Register</button>
+  </mat-card-actions>
+</form>
   <p class="loginhere">
-    Have already an account ?
-    <a disableRipple mat-flat-button routerLink="/authentication/login"
-      >Login</a
-    >
+    Have already an account?
+    <a disableRipple mat-flat-button routerLink="/authentication/login">Login</a>
   </p>
 </mat-card>

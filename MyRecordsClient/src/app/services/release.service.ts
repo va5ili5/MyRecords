@@ -16,9 +16,15 @@ export class ReleaseService {
     })
   };
 
-  constructor(private http: HttpClient) { }
   releases: Release[] = [];
+
+  constructor(private http: HttpClient) { }
+  
   getReleases(): Observable<Release[]>{
     return this.http.get<Release[]>(this.endpoint + '/releases')
+  }
+
+  createRelease(): Observable<Release> {
+    return this.http.get<Release[]>(this.endpoint + '/releases')[0];
   }
 }

@@ -17,9 +17,9 @@ export class ReleaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((paraMap: ParamMap) => {
-      if(paraMap.has('releaseId')){
+      if(paraMap.has('id')){
         this.mode = 'edit';
-        this.releaseId = +paraMap.get('releaseId');
+        this.releaseId = +paraMap.get('id');
         this.releaseService.getReleases().subscribe((releases: Release[]) => {
           this.release = releases.find(rel => rel.id === this.releaseId);
         })
