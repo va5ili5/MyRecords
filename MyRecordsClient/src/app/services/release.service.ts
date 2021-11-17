@@ -24,6 +24,14 @@ export class ReleaseService {
     return this.http.get<Release[]>(this.endpoint + '/releases')
   }
 
+  getRelease(id: number): Release {
+    let release: Release = null;
+    this.http.get<Release>(this.endpoint + '/releases/' + id).subscribe((rel:Release) => {
+      release = rel;
+    });
+    return release;
+  }
+
   createRelease(): Observable<Release> {
     return this.http.get<Release[]>(this.endpoint + '/releases')[0];
   }

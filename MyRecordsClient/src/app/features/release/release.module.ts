@@ -5,6 +5,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ReleaseRoutingModule } from './release-routing.module';
 import { ReleaseComponent } from './release/release.component';
 import { MaterialModule } from 'src/app/material/material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -14,7 +15,9 @@ import { MaterialModule } from 'src/app/material/material.module';
     CommonModule,
     SharedModule,
     MaterialModule,
-    ReleaseRoutingModule
+    ReleaseRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ReleaseModule { }

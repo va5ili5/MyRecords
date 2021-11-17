@@ -8,20 +8,46 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-// .auth-form-card {
-//   padding: 50px 85px;
-//   display: flex;
-//   flex-direction: column;
-//   .auth-form-card-title {
-//     text-transform: uppercase;
-//     text-align: center;
-//   }
+a {
+  text-decoration: none;
+}
 
-//   .auth-form {
-//     display: flex;
-//     flex-direction: column;
-//   }
-// }
+.wrapper {
+  height: 100vh;
+}
+
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
 //$primary-palette: mat-palette($mat-grey); //Note: Changed from mat-indigo
 //$accent-palette: mat-palette($mat-pink, A200, A100, A400);
 //$theme: mat-dark-theme($primary-palette, $accent-palette);

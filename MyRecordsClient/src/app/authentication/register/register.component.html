@@ -1,89 +1,60 @@
-<mat-card>
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <mat-card-title>Registration</mat-card-title>
-  <form *ngIf="!isLoading" (submit)="onRegister(registerForm)" #registerForm="ngForm">
-    <mat-card-content>
-      <mat-form-field appearance="standard">
-        <input
-          matInput
-          name="email"
-          ngModel
-          type="email"
-          placeholder="E-Mail"
-          #emailInput="ngModel"
-          required
-          email
-        />
-        <mat-error *ngIf="emailInput.invalid"
-          >Please enter a valid email.</mat-error
-        >
+<!-- <div fxLayout fxFill fxLayoutAlign="space-around center">
+  <mat-card class="mr-card" fxLayout="column" fxFlex="30%">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <mat-card-title>Registration</mat-card-title>
+    <form fxLayout="row wrap" *ngIf="!isLoading" (submit)="onRegister(registerForm)" #registerForm="ngForm">
+      <mat-form-field class="mr-form-field" fxFlexFill appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput name="username" ngModel type="text" placeholder="Username" #usernameInput="ngModel" required
+          username />
+        <mat-error *ngIf="usernameInput.invalid">Please enter a username.</mat-error>
       </mat-form-field>
-      <mat-form-field appearance="standard">
-        <input
-          type="password"
-          name="password"
-          ngModel
-          matInput
-          placeholder="Password"
-          #passwordInput="ngModel"
-          required
-        />
-        <mat-error *ngIf="passwordInput.invalid"
-          >Please enter a valid password.</mat-error
-        >
+      <mat-form-field class="mr-form-field" fxFlexFill appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput name="email" ngModel type="email" placeholder="Email" #emailInput="ngModel" required email />
+        <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
       </mat-form-field>
-      <mat-form-field appearance="standard">
-        <input
-          matInput
-          name="username"
-          ngModel
-          type="text"
-          placeholder="Username"
-          #usernameInput="ngModel"
-          required
-          username
-        />
-        <mat-error *ngIf="usernameInput.invalid"
-          >Please enter a username.</mat-error
-        >
+      <mat-form-field class="mr-form-field" fxFlexFill appearance="outline">
+        <mat-label>Password</mat-label>
+        <input type="password" name="password" ngModel matInput placeholder="Password" #passwordInput="ngModel"
+          required />
+        <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
       </mat-form-field>
-      <mat-form-field appearance="standard">
-        <input
-          matInput
-          name="firstname"
-          ngModel
-          type="text"
-          placeholder="Firstname"
-          #firstnameInput="ngModel"
-          required
-          firstname
-        />
-        <mat-error *ngIf="firstnameInput.invalid"
-          >Please enter firstname.</mat-error
-        >
+      <button class="mr-raised-button" mat-raised-button disableRipple color="accent" type="submit" *ngIf="!isLoading">Register</button>
+    </form>
+    <p>
+      Have already an account?
+      <a disableRipple mat-flat-button routerLink="/authentication/login">Login</a>
+    </p>
+  </mat-card>
+</div> -->
+<div fxLayout fxLayoutAlign="space-around">
+  <mat-card class="mr-card" fxLayout="column" fxLayoutGap="20px" fxFlex="50%">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <mat-card-title>Registration</mat-card-title>
+    <form fxLayout="column" *ngIf="!isLoading" (submit)="onRegister(registerForm)" #registerForm="ngForm">
+      <mat-form-field class="mr-form-field" appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput name="username" ngModel type="text" placeholder="Username" #usernameInput="ngModel" required
+          username />
+        <mat-error *ngIf="usernameInput.invalid">Please enter a username.</mat-error>
       </mat-form-field>
-      <mat-form-field appearance="standard">
-        <input
-          matInput
-          name="lastname"
-          ngModel
-          type="text"
-          placeholder="Lastname"
-          #lastnameInput="ngModel"
-          required
-          lastname
-        />
-        <mat-error *ngIf="lastnameInput.invalid"
-          >Please enter lastname.</mat-error
-        >
+      <mat-form-field class="mr-form-field" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput name="email" ngModel type="email" placeholder="Email" #emailInput="ngModel" required email />
+        <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
       </mat-form-field>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">Register</button>
-  </mat-card-actions>
-</form>
-  <p class="loginhere">
-    Have already an account?
-    <a disableRipple mat-flat-button routerLink="/authentication/login">Login</a>
-  </p>
-</mat-card>
+      <mat-form-field class="mr-form-field" appearance="outline">
+        <mat-label>Password</mat-label>
+        <input type="password" name="password" ngModel matInput placeholder="Password" #passwordInput="ngModel"
+          required />
+        <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
+      </mat-form-field>
+      <button class="mr-raised-button" mat-raised-button disableRipple color="accent" type="submit" *ngIf="!isLoading">Register</button>
+    </form>
+    <p>
+      Already have an account?
+      <a class="matcolorprimary" routerLink="/authentication/login">Login</a>
+    </p>
+  </mat-card>
+</div>

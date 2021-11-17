@@ -1,16 +1,39 @@
-<mat-card>
-    <form class="release-form">
-        <mat-form-field class="full-width">
-            <mat-label>Title</mat-label>
-            <input matInput type="text" name="title" ngModel>
-        </mat-form-field>
-        <mat-form-field class="full-width">
-            <mat-label>Details</mat-label>
-            <textarea matInput type="text" name="formatDetails" ngModel></textarea>
-        </mat-form-field>
-        <mat-form-field class="full-width">
-            <mat-label>Catalog Number</mat-label>
-            <input matInput type="text" name="catno" ngModel/>
-        </mat-form-field>
-    </form>
-</mat-card>
+
+<mat-accordion>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Artists
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="name">
+        <mat-cell *matCellDef="let element">
+          <mat-form-field class="example-full-width">
+            <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of options$ | async" [value]="option">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <!-- Row shown when there is no matching data that will be provided to the wrapper table. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data</td>
+      </tr>
+    </mat-table>
+    <!-- <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of options$ | async" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form> -->
+  </mat-expansion-panel>
+</mat-accordion>

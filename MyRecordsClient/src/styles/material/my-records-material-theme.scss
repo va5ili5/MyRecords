@@ -1,3 +1,4 @@
+
 @import "~@angular/material/theming";
 @include mat-core();
 @import "material-colors";
@@ -19,6 +20,9 @@ $darts-dark-theme: mat-dark-theme($darts-primary, $darts-accent, $darts-warn);
 // (anything wrapped with this class will apply the dark theme)
 .darts-dark-theme {
   @include angular-material-theme($darts-dark-theme);
+}
+.matcolorprimary{
+  color: mat-color($darts-accent)
 }
 
 // Get custom typogrpahy

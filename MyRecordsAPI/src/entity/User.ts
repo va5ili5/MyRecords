@@ -32,18 +32,18 @@ export class User {
   username!: string;
 
   @Column()
-  @Length(2, 30, {
-    message:
-      'The firstname must be at least 2 but not longer than 30 characters',
-  })
-  @IsNotEmpty({ message: 'The firstname is required' })
+  // @Length(2, 30, {
+  //   message:
+  //     'The firstname must be at least 2 but not longer than 30 characters',
+  // })
+  //@IsNotEmpty({ message: 'The firstname is required' })
   firstname!: string;
 
   @Column()
-  @Length(2, 30, {
-    message: 'The name must be at least 2 but not longer than 30 characters',
-  })
-  @IsNotEmpty({ message: 'The name is required' })
+  // @Length(2, 30, {
+  //   message: 'The name must be at least 2 but not longer than 30 characters',
+  // })
+  //@IsNotEmpty({ message: 'The name is required' })
   lastname!: string;
 
   @OneToMany((type) => Release, (release) => release.user)
