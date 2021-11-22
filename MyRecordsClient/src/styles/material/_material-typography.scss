@@ -1,11 +1,12 @@
-$my-records-typography: mat-typography-config(
+@use '@angular/material' as mat;
+$my-records-typography: mat.define-typography-config(
   $font-family: "Roboto, monospace",
   // Set the global default font
-  $headline: mat-typography-level(32px, 48px, 700, "Roboto"),
+  $headline: mat.define-typography-level(32px, 48px, 700, "Roboto"),
   // Set the style for main headline <h1>
-  $body-1: mat-typography-level(16px, 24px, 300)
+  $body-1: mat.define-typography-level(16px, 24px, 300)
     // // Set styles for body text. Family is set above in $font-family,,,
 );
 
 // @include angular-material-typography($custom-typography);
-@include mat-core($my-records-typography);
+@include mat.core($my-records-typography);
