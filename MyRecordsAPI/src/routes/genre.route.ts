@@ -6,6 +6,6 @@ const router = Router();
 
 router.get('/api/v1/genres/', getGenres);
 router.get('/api/v1/genres/:id', getGenreById);
-router.post('/api/v1/releases/create', createGenre);
+//router.post('/api/v1/releases/create', createGenre);
 
 export default router;

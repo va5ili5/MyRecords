@@ -7,8 +7,8 @@ export const getGenres = async (
     request: Request,
     response: Response
   ): Promise<Response> => {
-    const artists = await getRepository(Genre).find();
-    return response.status(200).json(artists);
+    const genres = await getRepository(Genre).find();
+    return response.status(200).json(genres);
   };
 
   export const getGenreById = async (
@@ -16,8 +16,8 @@ export const getGenres = async (
     response: Response
   ): Promise<Response> => {
     const genreId = request.params.id
-    const artists = await getRepository(Genre).findOneOrFail(genreId);
-    return response.status(200).json(artists);
+    const genre = await getRepository(Genre).findOneOrFail(genreId);
+    return response.status(200).json(genre);
   };
 
   export const createGenre = async (

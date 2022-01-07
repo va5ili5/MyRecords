@@ -121,7 +121,7 @@ export class AuthenticationService {
   autoAuthUser() {
     const authInformation = this.getAuthData();
     const now = new Date();
-    const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+    const expiresIn = authInformation?.expirationDate.getTime() - now.getTime();
     if(expiresIn > 0) {
       this.token = authInformation.token;
       this.userId = authInformation.userId;

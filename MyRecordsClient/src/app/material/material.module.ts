@@ -11,7 +11,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [],
@@ -30,7 +32,9 @@ import { MatTableModule } from '@angular/material/table';
     MatSelectModule,
     MatExpansionModule,
     MatAutocompleteModule,
-    MatTableModule
+    MatIconModule,
+    MatChipsModule,
+    MatDividerModule
   ]
 })
 export class MaterialModule { }

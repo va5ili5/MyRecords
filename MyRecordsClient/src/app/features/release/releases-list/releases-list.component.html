@@ -1,5 +1,5 @@
 <mat-grid-list cols="4" rowHeight="250px">
-  <mat-card *ngFor="let release of releases" class="example-card">
+  <mat-card *ngFor="let release of releases$ | async; index as i" class="example-card">
     <mat-card-header>
       <mat-card-title *ngFor="let artist of release.artists">
         {{ artist.name }}

@@ -19,9 +19,11 @@ export const getReleases = async (
     .addSelect(['format.name'])
     .addSelect(['artist.id', 'artist.name'])
     .addSelect(['label.id', 'label.name'])
+    .addSelect(['genre.id', 'genre.name'])
     .innerJoin('release.format', 'format')
     .innerJoin('release.artists', 'artist')
     .innerJoin('release.label', 'label')
+    .innerJoin('release.genres', 'genre')
     .getMany();
   return response.status(200).json(releases);
 };
@@ -37,7 +39,9 @@ export const getReleaseById = async (
     .select('release')
     .addSelect(['artist.id', 'artist.name'])
     .innerJoin('release.artists', 'artist')
-    .getOne();
+    .addSelect(['label.id', 'label.name'])
+    .innerJoin('release.label', 'label')
+    .getOne()
   return response.status(200).json(release);
 };
 
