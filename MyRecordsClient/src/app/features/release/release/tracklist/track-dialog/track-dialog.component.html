@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Add Track</h1>
+<div mat-dialog-content class="fxLayout" fxLayoutGap="20px">
+    <form [formGroup]="trackForm">
+        <mat-form-field>
+            <mat-label>Position</mat-label>
+            <input formControlName="position" matInput placeholder="position">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input formControlName="title" matInput placeholder="title">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Length</mat-label>
+            <input formControlName="length" matInput placeholder="length">
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-action [align]="'end'" class="fxLayout" fxLayoutGap="8px">
+    <button class="mr-raised-button" mat-raised-button color="secondary" mat-dialog-close>Cancel</button>
+    <button class="mr-raised-button" mat-raised-button (click)="addTrack()" color="accent">{{ action }}</button>
+</div>

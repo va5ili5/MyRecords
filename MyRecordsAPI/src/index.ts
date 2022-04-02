@@ -12,6 +12,8 @@ import userRoutes from './routes/user.route';
 import artistRoutes from './routes/artist.route';
 import genreRoutes from './routes/genre.route';
 import styleRoutes from './routes/style.route';
+import countryRoutes from './routes/country.route';
+import formatRoutes from './routes/format.route';
 import swaggerUi from 'swagger-ui-express';
 import * as swaggerDocument from './swagger.json';
 
@@ -39,6 +41,8 @@ app.use(labelRoutes);
 app.use(artistRoutes);
 app.use(genreRoutes);
 app.use(styleRoutes);
+app.use(countryRoutes);
+app.use(formatRoutes);
 app.listen(PORT, () => {
   console.log(`listening on ${PORT}`);
 });

@@ -5,32 +5,14 @@
         Release
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <mat-form-field style="padding: 20px 0">
-      <mat-chip-list #chipList aria-label="Artists">
-        <mat-chip
-          *ngFor="let artist of releaseArtists"
-          [selectable]="selectable"
-          [removable]="removable"
-          (removed)="remove(artist)">
-          {{artist.name}}
-          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-        </mat-chip>
-        <input
-          placeholder="Select Artist"
-          #artistInput
-          [formControl]="artistCtrl"
-          [matAutocomplete]="artistAuto"
-          [matChipInputFor]="chipList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="addOnBlur"
-          (matChipInputTokenEnd)="add($event)">
-      </mat-chip-list>
-      <mat-autocomplete #artistAuto="matAutocomplete" (optionSelected)="artistSelected($event)">
-        <mat-option *ngFor="let artist of filteredArtists$ | async" [value]="artist">
-          {{artist.name}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+    <ng-select [items]="filteredArtists$ | async"
+               bindLabel="name"
+               [closeOnSelect]="true"
+               [multiple]="true"
+               [hideSelected]="true"
+               [(ngModel)]="release && release.artists"
+               [typeahead]="input$">
+    </ng-select>
     <mat-divider></mat-divider>
     <mat-form-field style="padding: 20px 0">
       <mat-label>Title</mat-label>
@@ -38,28 +20,54 @@
     </mat-form-field>
     <mat-divider></mat-divider>
     <div class="fxLayout" fxLayoutGap="20px">
+      <!-- <app-label-select [modelLabel]="release && release.label"></app-label-select> -->
+      <mat-form-field style="padding: 20px 0">
+        <mat-label>Select label</mat-label>
+        <input matInput [(ngModel)]="release && release.label" name="label" [formControl]="labelCtrl"
+          [matAutocomplete]="labelAuto" />
+        <mat-autocomplete #labelAuto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let label of filteredLabels$ | async" [value]="label">
+            {{label.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field style="padding: 20px 0">
+        <mat-label>Catalog</mat-label>
+        <input matInput placeholder="catno" [(ngModel)]="release && release.catno">
+      </mat-form-field>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="fxLayout" fxLayoutGap="20px">
+      <app-format-select [modelFormat]="release && release.format"></app-format-select>
+      <mat-form-field style="padding: 20px 0">
+        <mat-label>Details</mat-label>
+        <input matInput placeholder="catno" [(ngModel)]="release && release.formatDetails">
+      </mat-form-field>
+    </div>
+    <mat-divider></mat-divider>
+    <app-countries-select [modelCountry]="release && release.country"></app-countries-select>
+    <mat-divider></mat-divider>
     <mat-form-field style="padding: 20px 0">
-      <input matInput [(ngModel)]="release && release.label" placeholder="Select Label" name="label" [formControl]="labelCtrl" [matAutocomplete]="labelAuto"/>
-      <mat-autocomplete #labelAuto="matAutocomplete" [displayWith]="displayFn">
-        <mat-option *ngFor="let label of filteredLabels$ | async" [value]="label">
-          {{label.name}}
+      <mat-label>Select release date</mat-label>
+      <input matInput [matDatepicker]="picker" [value]="releaseDate">
+      <mat-datepicker-toggle matSuffix [for]="picker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-divider></mat-divider>
+    <app-tracklist [dataSource]="tracklist"></app-tracklist>
+    <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+    <!-- <mat-form-field style="padding: 20px 0">
+      <mat-label>Select genre</mat-label>
+      <mat-select [(value)]="genre" [compareWith]="compareFn">
+        <mat-option *ngFor="let genre of genres" [value]="genre">
+          {{genre.name}}
         </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <mat-form-field style="padding: 20px 0">
-      <mat-label>Catalog</mat-label>
-      <input matInput placeholder="catno" [(ngModel)]="release && release.catno">
-    </mat-form-field>
-  </div>
-  <mat-divider></mat-divider>
-  <mat-form-field style="padding: 20px 0">
-    <mat-label>Select format</mat-label>
-    <mat-select [formControl]="formatCtrl" [(ngModel)]="release && release.format" required>
-      <mat-option *ngFor="let format of formats" [value]="format">
-        {{format.name}}
-      </mat-option>
-    </mat-select>
-    <mat-error *ngIf="formatCtrl.hasError('required')">Please choose a format</mat-error>
-  </mat-form-field>
+      </mat-select>
+      <mat-error *ngIf="genreCtrl.hasError('required')">Please choose a genre</mat-error>
+    </mat-form-field> -->
+    <mat-divider></mat-divider>
   </mat-expansion-panel>
 </mat-accordion>

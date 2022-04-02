@@ -1,24 +1,21 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { Artist } from 'src/app/domain/artist.model';
 import { Country } from 'src/app/domain/country.model';
 import { Format } from 'src/app/domain/format.model';
 import { Genre } from 'src/app/domain/genre.model';
+import { Label } from 'src/app/domain/label.model';
 import { Release } from 'src/app/domain/release.model';
+import { Song } from 'src/app/domain/song.model';
 import { FormsDataDto } from 'src/app/dto/forms-data-dto';
+import { FormatService } from 'src/app/services/format.service';
 import { FormsdataService } from 'src/app/services/formsdata.service';
 import { ReleaseService } from 'src/app/services/release.service';
 
-import {map, startWith} from 'rxjs/operators';
-import { ArtistService } from 'src/app/services/artist.service';
-import { Artist } from 'src/app/domain/artist.model';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips/chip-input';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { LabelService } from 'src/app/services/label.service';
-import { Label } from 'src/app/domain/label.model';
+
 @Component({
   selector: 'app-release',
   templateUrl: './release.component.html',
@@ -30,44 +27,38 @@ export class ReleaseComponent implements OnInit {
   private releaseId: number;
   public release: Release;
 
+  public format: any;
+  public country: any;
+  public releaseDate: any;
+
   public artists: Artist[] = [];
+  public releaseArtists: Artist[];
+
+
   public labels: Label[] = [];
-  public countries: Country[] = [];
-  public formats: Format[] = [];
+  
+  
   public genres: Genre[] = [];
 
-  
-  artistCtrl = new FormControl();
   labelCtrl = new FormControl();
-  formatCtrl = new FormControl();
+  
+  
+  genreCtrl = new FormControl();
 
   filteredArtists$: Observable<Artist[]>;
   filteredLabels$: Observable<Label[]>;
-  releaseArtists: any[] = [];
-  releaseLabel: Label = null;
-  availableArtists: any[] = [];
-  availableLabels: any[] = [];
-
-  addOnBlur = false;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  @ViewChild('artistInput', {static: false}) artistInput: ElementRef<HTMLInputElement>;
-  @ViewChild('artistAuto', {static: false}) matAutocomplete: MatAutocomplete;
   
-  
-  removable = true;
-  constructor(public releaseService: ReleaseService, public formsDataService: FormsdataService, public route: ActivatedRoute, public artistService: ArtistService,
-    public labelService: LabelService) { 
-    this.labelService.getLabels().subscribe((labels: Label[]) => {
-      this.availableLabels = labels;
-    })
-    this.artistService.getArtists().subscribe((artists: Artist[]) => {
-      this.availableArtists = artists;
+  formats$: Observable<Format[]>;
+  selectedFormatId:number;
 
-      this.filteredArtists$ = this.artistCtrl.valueChanges.pipe(
-        startWith(null),
-        map((artist: string | null) => this._filter(artist)));
-    })
-  }
+  tracklist:Song[];
+
+  public input$ = new Subject<string | null>();
+  
+  public selectedLabelId: number = null;
+
+  
+  constructor(public releaseService: ReleaseService, public formsDataService: FormsdataService, public route: ActivatedRoute) {  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((paraMap: ParamMap) => {
@@ -77,88 +68,53 @@ export class ReleaseComponent implements OnInit {
         this.releaseId = +paraMap.get('id');
         this.releaseService.getRelease(this.releaseId).subscribe((release: Release) => {
           this.release = release;
-          this.releaseArtists = release.artists;
-          this.releaseLabel = release.label;
+          this.selectedLabelId = release.label.id;
+          this.selectedFormatId = release.format.id;
+          //this.country = release.country;
+          this.releaseDate = release.releaseDate;
+          this.tracklist = release.songs;
+
         });
       } else {
         this.mode = 'create';
-        
+        this.release = {
+          artists: []
+        } as Release;
       }
     })
   }
 
   private formInit() {
+    //this.formats$ = this.formatService.getFormats();
     this.formsDataService.getFormsData().subscribe((formsData: FormsDataDto)=> {
       this.artists = formsData.artists;
       this.labels = formsData.labels;
-      this.countries = formsData.countries;
-      this.formats = formsData.formats;
+      //this.countries = formsData.countries;
+      //this.formats = formsData.formats;
       this.genres = formsData.genres;
 
-      this.filteredLabels$ = this.labelCtrl.valueChanges.pipe(
-        startWith(null),
-        map((label: string | null) => this._labelfilter(label)));
+      this.filteredLabels$ = this.input$.pipe(
+        map((term) => this.searchLabel(term))
+      )
 
-      this.filteredArtists$ = this.artistCtrl.valueChanges.pipe(
-        startWith(null),
-        map((artist: string | null) => this._filter(artist)));
-
+    //   this.filteredArtists$ = this.input$.pipe(
+    //     map((term) => this.searchArtists(term))
+    //   )
     });
   }
 
-  artistSelected(event: MatAutocompleteSelectedEvent): void {
-    const artist = event.option.value;
-    if (this.releaseArtists.findIndex(o => o['name'] === artist['name']) === -1) {
-      this.releaseArtists.push(artist);
-      this.artistInput.nativeElement.value = '';
-    this.artistCtrl.setValue(null);
-    }
-
-    // this.artists.push(event.option.value);
-    // this.artistInput.nativeElement.value = '';
-    // this.artistCtrl.setValue(null);
+  private searchArtists(term: string | null): Artist[] {
+    const searchTerm = term ? term : '';
+    return this.artists.filter((artist) => {
+      return artist.name.toLowerCase().startsWith(searchTerm.toLowerCase());
+    });
   }
 
-  private _filter(name: any): Artist[] {
-    if(typeof name === 'string' || name instanceof String) {
-      return this.artists.filter(
-        obj => obj['name'].toLowerCase().includes(name.toLowerCase()) && this.releaseArtists.findIndex(o => o['name'].toLowerCase() === obj['name'].toLowerCase()) === -1);
-    }
-  }
-
-  add(event: MatChipInputEvent): void {
-    // Add fruit only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
-    //if (!this.matAutocomplete.isOpen) {
-      const input = event.input;
-      const value = event.value;
-      const index = this.artists.findIndex(o => o['name'] === value)
-      if (index !== -1) {
-        this.releaseArtists.push(this.artists[index]);
-        this.artistCtrl.setValue(null);
-        input.value = '';
-      } else {
-        if (value !== '') {
-          this.artistCtrl.setErrors({failed: true});
-        }
-      }
-    //}
-  }
-
-  remove(artist: Artist): void {
-    const index = this.releaseArtists.indexOf(artist);
-
-    if (index >= 0) {
-      this.releaseArtists.splice(index, 1);
-    }
-  }
-
-  // LABEL
-  private _labelfilter(name: any): Label[] {
-    if(typeof name === 'string' || name instanceof String) {
-      return this.availableLabels.filter(
-        obj => obj['name'].toLowerCase().includes(name.toLowerCase()));
-    }
+  private searchLabel(term: string | null): Label[] {
+    const searchTerm = term ? term : '';
+    return this.labels.filter((label) => {
+      return label.name.toLowerCase().startsWith(searchTerm.toLowerCase());
+    });
   }
   
   displayFn(label?: Label): string | undefined {
@@ -166,5 +122,10 @@ export class ReleaseComponent implements OnInit {
       return label.name;
     }
   }
-  
+
+  public compareFn = function( option, value ) : boolean {
+    if(option != null && value != null)
+    return option.id === value.id;
+  }
+
 }

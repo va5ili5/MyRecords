@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material/material.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -8,10 +9,12 @@ import { MaterialModule } from '../material/material.module';
   declarations: [],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    NgSelectModule
   ],
   exports:[
-    MaterialModule
+    MaterialModule,
+    NgSelectModule
   ]
 })
 export class SharedModule { }

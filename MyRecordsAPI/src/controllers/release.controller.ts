@@ -8,6 +8,7 @@ import { Format } from '../entity/Format';
 import { Label } from '../entity/Label';
 import { Genre } from '../entity/Genre';
 import { Style } from '../entity/Style';
+import { Song } from '../entity/Song';
 
 export const getReleases = async (
   request: Request,
@@ -37,11 +38,21 @@ export const getReleaseById = async (
     .createQueryBuilder('release')
     .where('release.id = :id', { id: releaseId })
     .select('release')
+    .addSelect('song')
+    .innerJoin('release.songs', 'song')
     .addSelect(['artist.id', 'artist.name'])
     .innerJoin('release.artists', 'artist')
+    .addSelect(['genre.id', 'genre.name'])
+    .innerJoin('release.genres', 'genre')
+    .addSelect(['style.id', 'style.name'])
+    .innerJoin('release.styles', 'style')
     .addSelect(['label.id', 'label.name'])
     .innerJoin('release.label', 'label')
-    .getOne()
+    .addSelect(['format.id', 'format.name'])
+    .innerJoin('release.format', 'format')
+    .addSelect(['country.id', 'country.name'])
+    .innerJoin('release.country', 'country')
+    .getOne();
   return response.status(200).json(release);
 };
 

@@ -16,6 +16,7 @@ import { Format } from './Format';
 import { Image } from './Image';
 import { Genre } from './Genre';
 import { Style } from './Style';
+import { Song } from './Song';
 @Entity()
 export class Release {
   @PrimaryGeneratedColumn()
@@ -96,4 +97,7 @@ export class Release {
     },
   })
   styles!: Style[];
+
+  @OneToMany((type) => Song, (song) => song.release)
+  songs!: Song[];
 }
