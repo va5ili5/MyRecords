@@ -20,9 +20,9 @@ export class CountryService {
 
   constructor(private http: HttpClient) { }
 
-  getCountries(term: string = null): Observable<Country[]>{
+  getCountries(term: string = null, page: number ): Observable<Country[]>{
     if(term) {
-      return this.http.get<Country[]>(this.endpoint + `/countries?s=${term}`);
+      return this.http.get<Country[]>(this.endpoint + `/countries?s=${term}&page=${page}`);
     } else {
       return of([]);
     }
