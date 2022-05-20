@@ -1,10 +1,12 @@
 import { ThisReceiver } from '@angular/compiler';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, combineLatest, concat, Observable, of, Subject } from 'rxjs';
-import { catchError, concatMap, debounceTime, distinctUntilChanged, map, mergeMap, scan, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatAutocomplete } from '@angular/material/autocomplete';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { BehaviorSubject, combineLatest, concat, Observable, of, pipe, Subject } from 'rxjs';
+import { catchError, concatMap, debounceTime, distinctUntilChanged, exhaustMap, finalize, map, mergeMap, scan, startWith, switchMap, take, takeUntil, takeWhile, tap } from 'rxjs/operators';
 import { Country } from 'src/app/domain/country.model';
 import { CountryService } from 'src/app/services/country.service';
-
 @Component({
   selector: 'app-countries-select',
   template: `
@@ -18,29 +20,27 @@ import { CountryService } from 'src/app/services/country.service';
              [multiple]="false"
              [(ngModel)]="modelCountry"
              [virtualScroll]="true"
-             (scrollToEnd)="onScrollToEnd()">
+             (scrollToEnd)="onScrollToEnd()"
+             #select>
     </ng-select>
   `
 })
 export class CountriesSelectComponent implements OnInit {
   @Input() modelCountry: Country;
   countries$: Observable<Country[]>;
-  public input$ = new Subject<string | null>();
+  next$ = new Subject<any>();
+  input$ = new Subject<string | null>();
   loading = false;
-  page: number = 1;
-  perPage: number = 9;
+  @ViewChild('select') select: NgSelectComponent;
 
-  pageNumberSubject = new BehaviorSubject<number>(1);
-  pageNumberAction$ = this.pageNumberSubject.asObservable();
-  
   constructor(public countryService: CountryService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.loadCountries()
   }
 
   onScrollToEnd() {
-    this.pageNumberSubject.next(this.pageNumberSubject.value + 1);
+    this.next$.next();
   }
 
 
@@ -52,17 +52,25 @@ export class CountriesSelectComponent implements OnInit {
     this.countries$ = concat(
       of([]), // default items
       this.input$.pipe(
-        tap(() => this.pageNumberSubject.unsubscribe),
-        debounceTime(800),
+      startWith(''),
+        debounceTime(200),
         distinctUntilChanged(),
-        switchMap((term) => this.pageNumberAction$.pipe(
-          tap(() => this.loading = true),
-          concatMap((page) => 
-              this.countryService.getCountries(term, page)),
-          scan((acc, value) => [...acc, ...value]),
-          catchError(() => of([])), // empty list on error
-          tap(() => this.loading = false)
-        ))
+        switchMap(term => {
+          let page = 1;
+          if(this.select && this.select.dropdownPanel) {
+            this.select.dropdownPanel.scrollElementRef.nativeElement.scrollTop = 0;
+          }
+          return this.next$.pipe(
+            tap(() => this.loading = true),
+            startWith(page),
+            exhaustMap(_ => this.countryService.getCountries(term, page)),
+            tap(() => page++),
+            takeWhile((p: any) => p.length > 0, true),
+            scan((acc, value) => [...acc, ...value]),
+            catchError(() => of([])),
+            tap(() => this.loading = false)
+          );
+        })
       )
     );
   }
