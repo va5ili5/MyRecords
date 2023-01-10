@@ -6,7 +6,14 @@ export const getArtists = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
-  const artists = await getRepository(Artist).find();
+  const page: number =  parseInt(request.query.page as any) || 1;
+  const perPage: number = 9;
+
+  const artists = await getRepository(Artist)
+        .createQueryBuilder("c")
+              .where("c.name like :s", { s:`%${request.query.s}%`})
+              .offset((page - 1) * perPage).limit(perPage)
+              .getMany();
   return response.status(200).json(artists);
 };
 

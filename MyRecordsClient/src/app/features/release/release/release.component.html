@@ -1,10 +1,11 @@
 <mat-accordion>
-  <mat-expansion-panel [expanded]="true" fxLayout="column">
+  <mat-expansion-panel [expanded]="true">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Release
       </mat-panel-title>
     </mat-expansion-panel-header>
+    <!-- <app-paged-select [model]="release && release?.artists" bindLabel="name" serviceName="artists" [multiple]="true"></app-paged-select> -->
     <ng-select [items]="filteredArtists$ | async"
                bindLabel="name"
                [closeOnSelect]="true"
@@ -19,25 +20,18 @@
       <input matInput placeholder="title" [(ngModel)]="release && release.title" required>
     </mat-form-field>
     <mat-divider></mat-divider>
-    <div class="fxLayout" fxLayoutGap="20px">
-      <!-- <app-label-select [modelLabel]="release && release.label"></app-label-select> -->
-      <mat-form-field style="padding: 20px 0">
-        <mat-label>Select label</mat-label>
-        <input matInput [(ngModel)]="release && release.label" name="label" [formControl]="labelCtrl"
-          [matAutocomplete]="labelAuto" />
-        <mat-autocomplete #labelAuto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let label of filteredLabels$ | async" [value]="label">
-            {{label.name}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+    <div>
+      <app-label-select [modelLabel]="release && release.label"></app-label-select> 
+
+      <!-- <app-paged-select [model]="release && release.label" bindLabel="name" serviceName="labels" [multiple]="false"></app-paged-select> -->
+
       <mat-form-field style="padding: 20px 0">
         <mat-label>Catalog</mat-label>
         <input matInput placeholder="catno" [(ngModel)]="release && release.catno">
       </mat-form-field>
     </div>
     <mat-divider></mat-divider>
-    <div class="fxLayout" fxLayoutGap="20px">
+    <div>
       <app-format-select [modelFormat]="release && release.format"></app-format-select>
       <mat-form-field style="padding: 20px 0">
         <mat-label>Details</mat-label>
@@ -45,7 +39,8 @@
       </mat-form-field>
     </div>
     <mat-divider></mat-divider>
-    <app-countries-select [modelCountry]="release && release.country"></app-countries-select>
+    <app-countries-select [modelCountry]="release && release.country"></app-countries-select> 
+    <!-- <app-paged-select [model]="release && release.country" bindLabel="name" serviceName="countries" [multiple]="false"></app-paged-select> -->
     <mat-divider></mat-divider>
     <mat-form-field style="padding: 20px 0">
       <mat-label>Select release date</mat-label>

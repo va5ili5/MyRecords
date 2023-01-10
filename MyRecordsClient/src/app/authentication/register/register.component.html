@@ -28,11 +28,12 @@
     </p>
   </mat-card>
 </div> -->
-<div fxLayout fxLayoutAlign="space-around">
-  <mat-card class="mr-card" fxLayout="column" fxLayoutGap="20px" fxFlex="50%">
-    <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <mat-card-title>Registration</mat-card-title>
-    <form fxLayout="column" *ngIf="!isLoading" (submit)="onRegister(registerForm)" #registerForm="ngForm">
+<div class="form-container">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-toolbar class="form-toolbar" color="primary">Register</mat-toolbar>
+  <mat-card class="mr-card">
+    <mat-card-content>
+    <form *ngIf="!isLoading" (submit)="onRegister(registerForm)" #registerForm="ngForm">
       <mat-form-field class="mr-form-field" appearance="outline">
         <mat-label>Username</mat-label>
         <input matInput name="username" ngModel type="text" placeholder="Username" #usernameInput="ngModel" required
@@ -54,7 +55,8 @@
     </form>
     <p>
       Already have an account?
-      <a class="matcolorprimary" routerLink="/authentication/login">Login</a>
+      <a class="md-accent" routerLinkActive="mat-accent" routerLink="/authentication/login">Login</a>
     </p>
+  </mat-card-content>
   </mat-card>
 </div>

@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Add Track</h1>
-<div mat-dialog-content class="fxLayout" fxLayoutGap="20px">
+<div mat-dialog-content>
     <form [formGroup]="trackForm">
         <mat-form-field>
             <mat-label>Position</mat-label>
@@ -15,7 +15,7 @@
         </mat-form-field>
     </form>
 </div>
-<div mat-dialog-action [align]="'end'" class="fxLayout" fxLayoutGap="8px">
+<div mat-dialog-action [align]="'end'">
     <button class="mr-raised-button" mat-raised-button color="secondary" mat-dialog-close>Cancel</button>
     <button class="mr-raised-button" mat-raised-button (click)="addTrack()" color="accent">{{ action }}</button>
 </div>

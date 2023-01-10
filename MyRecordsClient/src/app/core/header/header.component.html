@@ -1,39 +1,42 @@
-<mat-toolbar color="primary" class="navbar">
-  <span>
-    <button mat-button routerLink="/">My Records</button>
-  </span>
-  <div fxLayout="row" fxShow="false" fxShow.gt-sm>
-    <a
-      mat-button
-      disableRipple
-      *ngIf="!userIsAuthenticated"
-      routerLink="/authentication/login"
-      routerLinkActive="mat-accent"
-      >Login</a
-    >
-    <a
-      mat-button
-      disableRipple
-      *ngIf="userIsAuthenticated"
-      (click)="onLogout()"
-      routerLinkActive="mat-accent"
-      >Logout</a
-    >
-    <a
-      mat-button
-      disableRipple
-      *ngIf="userIsAuthenticated"
-      routerLink="/releases/create"
-      routerLinkActive="mat-accent"
-      >Add Release</a
-    >
-    <a
-      mat-button
-      disableRipple
-      *ngIf="!userIsAuthenticated"
-      routerLink="/authentication/register"
-      routerLinkActive="mat-accent"
-      >Register</a
-    >
-  </div>
-</mat-toolbar>
+<header>
+  <mat-toolbar color="primary" class="navbar">
+    <span>
+      <button mat-button routerLink="/">My Records</button>
+    </span>
+    <div>
+      <a
+        mat-button
+        disableRipple
+        *ngIf="!userIsAuthenticated"
+        routerLink="/authentication/login"
+        routerLinkActive="mat-accent"
+        >Login</a
+      >
+      <a
+        mat-button
+        disableRipple
+        *ngIf="userIsAuthenticated"
+        (click)="onLogout()"
+        routerLinkActive="mat-accent"
+        >Logout</a
+      >
+      <a
+        mat-button
+        disableRipple
+        *ngIf="userIsAuthenticated"
+        routerLink="/releases/create"
+        routerLinkActive="mat-accent"
+        >Add Release</a
+      >
+      <a
+        mat-button
+        disableRipple
+        *ngIf="!userIsAuthenticated"
+        routerLink="/authentication/register"
+        routerLinkActive="mat-accent"
+        >Register</a
+      >
+    </div>
+  </mat-toolbar>
+</header>
+

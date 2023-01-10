@@ -2,29 +2,22 @@
 
 @import "@angular/material/theming";
 @include mat.core();
-@import "material-colors";
+// @import "material-colors";
 // Primary Theme Colors
-$darts-primary: mat.define-palette($mat-black);
-$darts-accent: mat.define-palette(mat.$green-palette);
+$myrecords-primary: mat.define-palette(mat.$blue-grey-palette, 900);
+$myrecords-accent: mat.define-palette(mat.$teal-palette, 700);
 $darts-warn: mat.define-palette(mat.$red-palette);
 
-// Set Primary Theme
-$darts-light-theme: mat.define-light-theme($darts-primary, $darts-accent, $darts-warn);
-
-// Set Dark Theme
-$darts-dark-theme: mat.define-dark-theme($darts-primary, $darts-accent, $darts-warn);
+$my-records-theme: mat.define-light-theme((
+ color: (
+   primary: $myrecords-primary,
+   accent: $myrecords-accent,
+   warn: $darts-warn,
+ )
+));
 
 // Set Default Theme
-@include mat.all-component-themes($darts-light-theme);
-
-// Dark Theme class [ .app-dark-theme ]
-// (anything wrapped with this class will apply the dark theme)
-.darts-dark-theme {
-  @include mat.all-component-themes($darts-dark-theme);
-}
-.matcolorprimary{
-  color: mat.get-color-from-palette($darts-accent)
-}
+@include mat.all-component-themes($my-records-theme);
 
 // Get custom typogrpahy
 @import "material-typography";

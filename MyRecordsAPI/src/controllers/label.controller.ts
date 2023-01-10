@@ -6,9 +6,24 @@ export const getLabels = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
+  const page: number =  parseInt(request.query.page as any) || 1;
+  const perPage: number = 9;
+
+  const labels = await getRepository(Label).
+    createQueryBuilder("c")
+    .where("c.name like :s", { s:`%${request.query.s}%`})
+    .offset((page - 1) * perPage).limit(perPage)
+    .getMany();
+    return response.status(200).json(labels);
+};
+
+export const getReleaseLabels = async(
+  request: Request,
+  response: Response
+): Promise<Response> => {
   const labels = await getRepository(Label).find({ relations: ['releases'] });
   return response.status(200).json(labels);
-};
+}
 
 export const getLabelById = async (
   request: Request,

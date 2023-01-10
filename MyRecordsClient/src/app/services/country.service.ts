@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Country } from '../domain/country.model';
+import { PagedService } from './paged.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,9 @@ export class CountryService {
 
   countries: Country[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    //super();
+  }
 
   getCountries(term: string = null, page: number ): Observable<Country[]>{
     if(term) {

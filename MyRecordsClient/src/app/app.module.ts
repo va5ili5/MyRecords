@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { ReleaseModule } from './features/release/release.module';
-import { MaterialModule } from './material/material.module';
+//import { MaterialModule } from './material/material.module';
 import { HomeComponent } from './home/home.component';
 import { AuthenticationInterceptor } from './services/interceptor/authentication-interceptor';
 
@@ -22,7 +22,7 @@ import { AuthenticationInterceptor } from './services/interceptor/authentication
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MaterialModule,
+    //MaterialModule,
     ReleaseModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true }],

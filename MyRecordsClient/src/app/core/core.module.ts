@@ -6,14 +6,18 @@ import { ReleaseModule } from '../features/release/release.module';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent],
   imports: [
     CommonModule,
     RouterModule,
-    SharedModule,
-    MaterialModule
+    MatToolbarModule,
+    MatButtonModule
+    //SharedModule,
+    //MaterialModule
   ],
   exports: [
     HeaderComponent,

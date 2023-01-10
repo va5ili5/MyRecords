@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout'
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -24,7 +23,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule
   ],
   exports: [
-    FlexLayoutModule,
     MatToolbarModule,
     MatCardModule,
     MatGridListModule,

@@ -1,6 +1,10 @@
+@import "./styles/material/my-records-material-theme";
+@import "./styles/partials/all";
+
 html,
 body {
   height: 100%;
+  margin: 0;
 }
 
 body {
@@ -10,47 +14,64 @@ body {
 
 a {
   text-decoration: none;
+  color: mat-color($myrecords-accent);
 }
 
 .wrapper {
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.container {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 50px 50px;
 }
 
-@media (min-width: 576px) {
-  .container {
-    max-width: 540px;
+app-register,
+app-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* flex-direction: column; */
+  flex-grow: 1;
+
+  .form-container {
+    width: 500px;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  .form-toolbar {
+    justify-content: center;
+
+  }
+
+  .form-toolbar.mat-toolbar-single-row {
+    height: 50px;
+  }
+
+  .mat-form-field {
+    width: 100%;
+    display: block;
+  }
+
+  .mat-raised-button {
+    width: 100%;
+    margin-top: 15px;
   }
 }
 
-@media (min-width: 768px) {
-  .container {
-    max-width: 720px;
-  }
+footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background-color: mat-color($myrecords-primary);
+  height: 60px;
 }
-
-@media (min-width: 992px) {
-  .container {
-    max-width: 960px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1140px;
-  }
-}
-
-//$primary-palette: mat-palette($mat-grey); //Note: Changed from mat-indigo
-//$accent-palette: mat-palette($mat-pink, A200, A100, A400);
-//$theme: mat-dark-theme($primary-palette, $accent-palette);
-
-@import "./styles/material/my-records-material-theme";
-@import "./styles/partials/all";

@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Label } from '../domain/label.model';
+import { PagedService } from './paged.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class LabelService {
+export class LabelService{
   endpoint = environment.apiUrl;
   httpOptions = {
     headers: new HttpHeaders({
@@ -18,10 +19,16 @@ export class LabelService {
 
   labels: Label[] = [];
 
-  constructor(private http: HttpClient) { }
-  
-  getLabels(): Observable<Label[]>{
-    return this.http.get<Label[]>(this.endpoint + '/labels')
+  constructor(private http: HttpClient) {
+    //super();
+  }
+
+  getLabels(term: string = null, page: number ): Observable<Label[]>{
+    if(term) {
+      return this.http.get<Label[]>(this.endpoint + `/labels?s=${term}&page=${page}`);
+    } else {
+      return of([]);
+    }
   }
 
   getLabel(id: number): Label {
